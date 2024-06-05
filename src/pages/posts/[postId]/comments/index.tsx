@@ -1,7 +1,10 @@
 import { RouterButton } from '@/components'
 import { useRouter } from 'next/router'
 
-const Index: React.FC<{ time: string; data: { title: string; body: string; id: string } }> = ({ time, data }) => {
+const Index: React.FC<{ time: string; data: { user: { id: number; username: string; fullName: string }; body: string; id: string }[] }> = ({
+  time,
+  data,
+}) => {
   const routes = useRouter()
 
   if (routes.isFallback) {
@@ -10,11 +13,17 @@ const Index: React.FC<{ time: string; data: { title: string; body: string; id: s
   }
   return (
     <div>
-      <h2>Post Detail Page postId: {routes.query.postId}</h2>
+      <h2>Post Detail Comments Page postId: {routes.query.postId}</h2>
       <RouterButton />
       <div>time: {time}</div>
-      <h3>{data?.title}</h3>
-      <div>{data?.body}</div>
+      <ul>
+        {data?.map(({ body, id, user }) => (
+          <li className='flex ' key={id}>
+            <div className='mr-10'>{user.username}:</div>
+            <div>{body}</div>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -24,11 +33,11 @@ export async function getStaticPaths() {
   const response = await (await fetch('https://dummyjson.com/posts')).json()
 
   return {
-    paths: [{ params: { postId: '1' } }, { params: { postId: '2' } }],
+    paths: [{ params: { postId: '1' } }, { params: { postId: '2' } }, { params: { postId: '47' } }],
     // paths: response.posts.map(({ id }: { id: string }) => ({ params: { postId: id.toString() } })), // 动态生成
-    // fallback: false,
+    fallback: false,
     // fallback: 'blocking', // 没有预生成的页面会在请求的时候生成(SSG-服务端生成)
-    fallback: true, // 不做限制,并且设置为true之后可以设置一个动画
+    // fallback: true, // 不做限制,并且设置为true之后可以设置一个动画
   }
 }
 
@@ -43,9 +52,9 @@ export async function getStaticPaths() {
 */
 export async function getStaticProps(context: any) {
   const time = new Date().toLocaleString()
-  const response = await (await fetch(`https://dummyjson.com/posts/${context.params.postId}`)).json()
-
+  const response = await (await fetch(`https://dummyjson.com/posts/${context.params.postId}/comments`)).json()
   return {
-    props: { time, data: response },
+    props: { time, data: response.comments },
+    revalidate: 10, // fallback必须是false 本次请求的资源构建超过10s则重新构建,控制构建的周期
   }
 }
