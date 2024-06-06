@@ -1,7 +1,12 @@
 import { RouterButton } from '@/components'
+import { envs } from '@/utils/env'
 import Image from 'next/image'
+import { useEffect } from 'react'
 
 const Index: React.FC<{ time: string; data: any[]; total: number }> = ({ time, data, total }) => {
+  useEffect(() => {
+    console.log('挂载了')
+  }, [])
   return (
     <div>
       <h2>Product List Page</h2>
@@ -31,8 +36,9 @@ export async function getServerSideProps(context: any) {
   // console.log(req, res, params, query, reset)
   const time = new Date().toLocaleString()
   // const response = await (await fetch('https://dummyjson.com/products')).json()
-  // 替换成自己的接口
-  const response = await (await fetch('http://localhost:3000/api/products')).json()
+  // 替换成自己的接口,接口地址是 src/pages/api
+  // const response = await (await fetch(`http:${req.headers.host}/api/products`)).json()
+  const response = await (await fetch(`${(envs as any)[process.env.NODE_ENV]}/api/products`)).json()
   res.setHeader('Set-Cookie', 'token=langjinjie') // 设置cookie
   return {
     props: { time, data: response.products, total: response.total },

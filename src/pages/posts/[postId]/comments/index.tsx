@@ -33,7 +33,7 @@ export async function getStaticPaths() {
   const response = await (await fetch('https://dummyjson.com/posts')).json()
 
   return {
-    paths: [{ params: { postId: '1' } }, { params: { postId: '2' } }, { params: { postId: '47' } }],
+    paths: [{ params: { postId: '1' } }, { params: { postId: '2' } }],
     // paths: response.posts.map(({ id }: { id: string }) => ({ params: { postId: id.toString() } })), // 动态生成
     fallback: false,
     // fallback: 'blocking', // 没有预生成的页面会在请求的时候生成(SSG-服务端生成)
