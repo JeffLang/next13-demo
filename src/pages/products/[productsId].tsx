@@ -1,7 +1,8 @@
 import { RouterButton } from '@/components'
-import Link from 'next/link'
 
 const About: React.FC<{ time: string; data: any }> = ({ time, data }) => {
+
+
   return (
     <div>
       <h2>Product Id List Page</h2>

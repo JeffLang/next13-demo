@@ -1,12 +1,8 @@
 import { RouterButton } from '@/components'
 import { envs } from '@/utils/env'
 import Image from 'next/image'
-import { useEffect } from 'react'
 
 const Index: React.FC<{ time: string; data: any[]; total: number }> = ({ time, data, total }) => {
-  useEffect(() => {
-    console.log('挂载了')
-  }, [])
   return (
     <div>
       <h2>Product List Page</h2>
@@ -17,7 +13,7 @@ const Index: React.FC<{ time: string; data: any[]; total: number }> = ({ time, d
         {data?.map(({ title, id, thumbnail, description }) => (
           <div key={id} className='flex rounded border-solid border-indigo-600 m-1'>
             <div>
-              <Image width={100} height={100} src={thumbnail} alt={description} />
+              <Image width={100} height={100} src={thumbnail} alt={description} priority />
             </div>
             <div>
               <h4>{title}</h4>
