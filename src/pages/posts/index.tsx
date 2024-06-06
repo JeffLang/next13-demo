@@ -4,9 +4,9 @@ import Link from 'next/link'
 const Index: React.FC<{ time: string; data: { title: string; id: string }[] }> = ({ time, data }) => {
   return (
     <div>
-      <h2>Posts Page</h2>
+      <h2>Posts List Page</h2>
       <RouterButton />
-      <div>time: {time}</div>
+      <div>build: {time}</div>
       <div>
         {data?.map(({ title, id }) => (
           <li key={id}>

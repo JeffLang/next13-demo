@@ -12,7 +12,7 @@ const Index: React.FC<{ time: string; data: { title: string; body: string; id: s
     <div>
       <h2>Post Detail Page postId: {routes.query.postId}</h2>
       <RouterButton />
-      <div>time: {time}</div>
+      <div>build: {time}</div>
       <h3>{data?.title}</h3>
       <div>{data?.body}</div>
     </div>
