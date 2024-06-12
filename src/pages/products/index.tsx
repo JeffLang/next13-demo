@@ -3,11 +3,15 @@ import { envs } from '@/utils/env'
 import Image from 'next/image'
 
 const Index: React.FC<{ time: string; data: any[]; total: number }> = ({ time, data, total }) => {
+  const handleClick = () => {
+    console.log('我点击了')
+  }
+
   return (
     <div>
       <h2>Product List Page</h2>
       <RouterButton />
-      <div>build: {time}</div>
+      <div onClick={handleClick}>build: {time}</div>
       <div>total: {total}</div>
       <div>
         {data?.map(({ title, id, thumbnail, description }) => (
